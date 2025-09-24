@@ -34,6 +34,7 @@ php artisan view:clear
 php artisan optimize
 
 echo "=== Running Database Migrations ==="
+php artisan migrate:fresh --force || true
 php artisan migrate --force || true
 
 PORT_TO_USE=${PORT:-8000}
