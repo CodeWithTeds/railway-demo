@@ -12,11 +12,11 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('/css/app.css') }}" rel="stylesheet">
     @livewireStyles
     
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ url('/js/app.js') }}" defer></script>
 </head>
 <body class="h-full font-sans antialiased bg-white dark:bg-zinc-900">
     <div class="flex h-screen overflow-hidden">
