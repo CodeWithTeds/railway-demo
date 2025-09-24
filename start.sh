@@ -4,7 +4,7 @@
 cd /Applications/XAMPP/xamppfiles/htdocs/IMS\ copy/app
 
 echo "=== Installing Composer Dependencies ==="
-composer install --optimize-autoloader --no-dev --no-interaction
+composer install --optimize-autoloader --no-dev --no-interaction --ignore-platform-reqs
 
 echo "=== Installing NPM Dependencies ==="
 npm ci
