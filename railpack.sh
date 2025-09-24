@@ -5,9 +5,9 @@
 
 echo "=== Railpack Deployment Script ==="
 
-# Update composer dependencies with platform requirements ignored
-echo "=== Updating Composer Dependencies ==="
-composer update --no-dev --ignore-platform-reqs --optimize-autoloader --no-scripts --no-interaction
+# Install composer dependencies with downgraded requirements
+echo "=== Installing Composer Dependencies ==="
+composer install --optimize-autoloader --no-scripts --no-interaction
 
 # Install NPM dependencies
 echo "=== Installing NPM Dependencies ==="
