@@ -2,6 +2,9 @@
 
 set -euo pipefail
 
+# Set PHP version for Railway deployment
+export PHP_VERSION=8.1
+
 # Change to the application directory (directory of this script), robust for spaces in path
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
