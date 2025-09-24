@@ -1,0 +1,34 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Database Connection Monitor
+|--------------------------------------------------------------------------
+|
+| This script checks if the database connection is available.
+| It returns exit code 0 if connection is successful, 1 otherwise.
+|
+*/
+
+define('LARAVEL_START', microtime(true));
+
+require __DIR__.'/vendor/autoload.php';
+
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+
+try {
+    // Try to connect to the database
+    $db = $app->make('db');
+    $connection = $db->connection();
+    
+    // Execute a simple query to test the connection
+    $connection->select('SELECT 1');
+    
+    echo "Database connection successful.\n";
+    exit(0); // Success
+} catch (Exception $e) {
+    echo "Database connection failed: " . $e->getMessage() . "\n";
+    exit(1); // Failure
+}
