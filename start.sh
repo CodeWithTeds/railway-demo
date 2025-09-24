@@ -4,13 +4,14 @@
 cd /Applications/XAMPP/xamppfiles/htdocs/IMS\ copy/app
 
 echo "=== Installing Composer Dependencies ==="
-composer install
+# Using --ignore-platform-reqs to bypass PHP version requirements
+composer update --ignore-platform-reqs --no-interaction
 
 echo "=== Installing NPM Dependencies ==="
 npm install
 
 echo "=== Running Database Migrations ==="
-php artisan migrate
+php artisan migrate --force
 
 echo "=== Building Assets ==="
 npm run build
