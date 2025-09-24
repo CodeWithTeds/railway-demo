@@ -12,8 +12,8 @@ composer install --optimize-autoloader --no-dev --no-interaction --ignore-platfo
 echo "=== Installing NPM Dependencies ==="
 npm ci
 
-echo "=== Building Assets ==="
-# Build BEFORE caching config/views to ensure manifest exists for @vite
+echo "=== Building Tailwind CSS ==="
+# Build Tailwind CSS
 npm run build
 
 echo "=== Preparing Storage Directories ==="
