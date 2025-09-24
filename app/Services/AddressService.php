@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
 class AddressService
 {
@@ -14,12 +15,16 @@ class AddressService
      */
     public function getRegions(): array
     {
-        return DB::table('regions')
-            ->select('code', 'name')
-            ->orderBy('name')
-            ->get()
-            ->map(fn($r) => ['code' => $r->code, 'name' => $r->name])
-            ->toArray();
+        try {
+            return DB::table('regions')
+                ->select('code', 'name')
+                ->orderBy('name')
+                ->get()
+                ->map(fn($r) => ['code' => $r->code, 'name' => $r->name])
+                ->toArray();
+        } catch (QueryException $e) {
+            return [];
+        }
     }
 
     /**
@@ -31,14 +36,17 @@ class AddressService
     public function getProvinces(string $regionCode): array
     {
         if (!$regionCode) return [];
-        
-        return DB::table('provinces')
-            ->where('region_code', $regionCode)
-            ->select('code', 'name')
-            ->orderBy('name')
-            ->get()
-            ->map(fn($p) => ['code' => $p->code, 'name' => $p->name])
-            ->toArray();
+        try {
+            return DB::table('provinces')
+                ->where('region_code', $regionCode)
+                ->select('code', 'name')
+                ->orderBy('name')
+                ->get()
+                ->map(fn($p) => ['code' => $p->code, 'name' => $p->name])
+                ->toArray();
+        } catch (QueryException $e) {
+            return [];
+        }
     }
 
     /**
@@ -50,14 +58,17 @@ class AddressService
     public function getCities(string $provinceCode): array
     {
         if (!$provinceCode) return [];
-        
-        return DB::table('cities')
-            ->where('province_code', $provinceCode)
-            ->select('code', 'name')
-            ->orderBy('name')
-            ->get()
-            ->map(fn($c) => ['code' => $c->code, 'name' => $c->name])
-            ->toArray();
+        try {
+            return DB::table('cities')
+                ->where('province_code', $provinceCode)
+                ->select('code', 'name')
+                ->orderBy('name')
+                ->get()
+                ->map(fn($c) => ['code' => $c->code, 'name' => $c->name])
+                ->toArray();
+        } catch (QueryException $e) {
+            return [];
+        }
     }
 
     /**
@@ -69,14 +80,17 @@ class AddressService
     public function getBarangays(string $cityCode): array
     {
         if (!$cityCode) return [];
-        
-        return DB::table('barangays')
-            ->where('city_code', $cityCode)
-            ->select('code', 'name')
-            ->orderBy('name')
-            ->get()
-            ->map(fn($b) => ['code' => $b->code, 'name' => $b->name])
-            ->toArray();
+        try {
+            return DB::table('barangays')
+                ->where('city_code', $cityCode)
+                ->select('code', 'name')
+                ->orderBy('name')
+                ->get()
+                ->map(fn($b) => ['code' => $b->code, 'name' => $b->name])
+                ->toArray();
+        } catch (QueryException $e) {
+            return [];
+        }
     }
 
     /**
@@ -88,7 +102,11 @@ class AddressService
     public function getUserAddress(int $userId = null): ?object
     {
         $userId = $userId ?? Auth::id();
-        return DB::table('users_addresses')->where('user_id', $userId)->first();
+        try {
+            return DB::table('users_addresses')->where('user_id', $userId)->first();
+        } catch (QueryException $e) {
+            return null;
+        }
     }
 
     /**
@@ -101,20 +119,22 @@ class AddressService
     public function saveUserAddress(array $data, int $userId = null): bool
     {
         $userId = $userId ?? Auth::id();
-        
-        DB::table('users_addresses')->updateOrInsert(
-            ['user_id' => $userId],
-            [
-                'region_code' => $data['region_code'],
-                'province_code' => $data['province_code'],
-                'city_code' => $data['city_code'],
-                'barangay_code' => $data['barangay_code'],
-                'exact_address' => $data['exact_address'] ?? null,
-                'updated_at' => now(),
-                'created_at' => now(),
-            ]
-        );
-        
-        return true;
+        try {
+            DB::table('users_addresses')->updateOrInsert(
+                ['user_id' => $userId],
+                [
+                    'region_code' => $data['region_code'],
+                    'province_code' => $data['province_code'],
+                    'city_code' => $data['city_code'],
+                    'barangay_code' => $data['barangay_code'],
+                    'exact_address' => $data['exact_address'] ?? null,
+                    'updated_at' => now(),
+                    'created_at' => now(),
+                ]
+            );
+            return true;
+        } catch (QueryException $e) {
+            return false;
+        }
     }
 }

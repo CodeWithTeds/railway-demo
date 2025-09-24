@@ -1,4 +1,4 @@
-<div class="h-screen border-r border-zinc-200 bg-zinc-50">
+<div class="relative h-screen border-r border-zinc-200 bg-zinc-50">
     <div class="flex h-16 items-center px-4">
         <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
             <x-app-logo />
