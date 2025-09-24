@@ -1,4 +1,6 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source '../views';
